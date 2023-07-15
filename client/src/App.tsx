@@ -1,7 +1,7 @@
 import React from 'react';
-import NavBar from './components/NavBar';
-
+import NavBar from 'components/navbar/Navbar';
 import 'bootswatch/dist/minty/bootstrap.min.css';
+
 export default function App() {
   return (
     <>

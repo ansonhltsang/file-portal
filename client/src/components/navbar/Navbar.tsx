@@ -1,4 +1,5 @@
 import React from 'react';
+import 'navbar.css';
 
 const NavBar = () => {
   return (
@@ -8,7 +9,7 @@ const NavBar = () => {
           File Portal
         </a>
         <button
-          className="navbar-toggler"
+          className="navbar-toggler collapsed"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarColor01"
@@ -18,7 +19,7 @@ const NavBar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarColor01">
+        <div className="navbar-collapse collapse" id="navbarColor01">
           <ul className="navbar-nav me-auto">
             <li className="nav-item">
               <a className="nav-link active" href="#">

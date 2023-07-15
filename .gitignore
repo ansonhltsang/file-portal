@@ -31,3 +31,19 @@ dist-ssr
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+.env
+
+# Backend
+pb_data
+fly.toml
+
+# Test binary, built with `go test -c`
+*.test
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
