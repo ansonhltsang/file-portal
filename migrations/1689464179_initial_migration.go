@@ -52,7 +52,10 @@ func init() {
 				&schema.SchemaField{
 					Name:     "expired",
 					Type:     schema.FieldTypeDate,
-					Required: true,
+				},
+				&schema.SchemaField{
+					Name:			"lastFileChanged",
+					Type:			schema.FieldTypeDate,
 				},
 			),
 		}
@@ -67,8 +70,8 @@ func init() {
 			Type:       models.CollectionTypeBase,
 			ListRule:   nil,
 			ViewRule:   types.Pointer(""),
-			CreateRule: types.Pointer("@request.date.expired > @now"),
-			UpdateRule: types.Pointer("@request.date.expired > @now && @request.headers.session_id = session"),
+			CreateRule: types.Pointer(""),
+			UpdateRule: types.Pointer("@request.headers.session_id = session"),
 			DeleteRule: types.Pointer("@request.headers.session_id = session"),
 			Schema:     schema.NewSchema(
 				&schema.SchemaField{
@@ -83,7 +86,6 @@ func init() {
 				&schema.SchemaField{
 					Name:     "expired",
 					Type:     schema.FieldTypeDate,
-					Required: true,
 				},
 				&schema.SchemaField{
 					Name:     "file",
