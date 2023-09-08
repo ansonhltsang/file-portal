@@ -36,6 +36,7 @@ dist-ssr
 
 # Backend
 pb_data
+test_pb_data
 fly.toml
 
 # Test binary, built with `go test -c`

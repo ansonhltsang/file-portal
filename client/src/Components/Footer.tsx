@@ -1,12 +1,14 @@
-import { createStyles, Container, ActionIcon, rem } from '@mantine/core';
+import { createStyles, Container, rem, Button, Text } from '@mantine/core';
 import { BrandGithub } from 'tabler-icons-react';
+
+const githubLink = 'https://github.com/ansonhltsang/file-portal';
 
 const useStyles = createStyles((theme) => ({
   footer: {
     borderTop: `${rem(1)} solid ${
       theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[2]
     }`,
-    [theme.fn.smallerThan('xs')]: {
+    [theme.fn.smallerThan('md')]: {
       display: 'none',
     },
   },
@@ -30,16 +32,31 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export default function FooterSocial() {
+export default function Footer() {
   const { classes } = useStyles();
 
   return (
     <div className={classes.footer}>
       <Container className={classes.inner}>
-        <h3>About this project</h3>
-        <ActionIcon size="lg">
-          <BrandGithub size="3rem" strokeWidth={1.5} />
-        </ActionIcon>
+        <Button
+          variant="white"
+          color="gray"
+          w="fit-content"
+          onClick={() => window.open(githubLink, '_blank')}
+        >
+          <Text fz="lg" fw="500" align="center">
+            About Project
+          </Text>
+        </Button>
+        <Button
+          variant="subtle"
+          color="gray"
+          w="fit-content"
+          p={rem(3)}
+          onClick={() => window.open(githubLink, '_blank')}
+        >
+          <BrandGithub size={rem(30)} strokeWidth={1.5} color="grey" />
+        </Button>
       </Container>
     </div>
   );

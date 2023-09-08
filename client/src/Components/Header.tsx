@@ -7,6 +7,8 @@ import {
   Transition,
   rem,
   ActionIcon,
+  Text,
+  Button,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { BrandGithub } from 'tabler-icons-react';
@@ -30,7 +32,7 @@ const useStyles = createStyles((theme) => ({
     borderTopWidth: 0,
     overflow: 'hidden',
 
-    [theme.fn.largerThan('xs')]: {
+    [theme.fn.largerThan('md')]: {
       display: 'none',
     },
   },
@@ -40,16 +42,17 @@ const useStyles = createStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '100%',
+    maxWidth: rem('80vw'),
   },
 
   links: {
-    [theme.fn.smallerThan('sm')]: {
+    [theme.fn.smallerThan('md')]: {
       display: 'none',
     },
   },
 
   burger: {
-    [theme.fn.largerThan('xs')]: {
+    [theme.fn.largerThan('md')]: {
       display: 'none',
     },
   },
@@ -82,7 +85,16 @@ export default function HeaderResponsive() {
   return (
     <Header height={HEADER_HEIGHT} className={classes.root}>
       <Container className={classes.header}>
-        <h1>File Portal</h1>
+        <Button
+          variant="white"
+          color="dark"
+          w="fit-content"
+          onClick={() => window.location.assign('/')}
+        >
+          <Text fz={rem(40)} fw="700" align="center">
+            File Portal
+          </Text>
+        </Button>
 
         <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
 

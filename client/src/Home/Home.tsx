@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Flex } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import PocketBase from 'pocketbase';
+import generateClientKey from './utils/generateClientKey';
 
 // const useStyles = createStyles((theme) => ({
 
@@ -41,7 +42,8 @@ export const Home = () => {
     const session = await pb.collection('sessions').create({
       expired: '',
     });
-    const path = `/${session.id}`;
+    const clientKey = await generateClientKey();
+    const path = `/${session.id}#${clientKey}`;
     navigate(path);
     setIsSessionLoading(false);
   };

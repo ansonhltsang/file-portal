@@ -6,76 +6,93 @@ import (
 	"strings"
 	"time"
 
+	_ "github.com/ansonhltsang/file-portal/migrations"
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/core"
-
-	// "github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/plugins/migratecmd"
-
-	_ "github.com/ansonhltsang/file-portal/migrations"
 )
 
 func main() {
-    app := pocketbase.New()
+	app := pocketbase.New()
 
 	isGoRun := strings.HasPrefix(os.Args[0], os.TempDir())
 
-	migratecmd.MustRegister(app, app.RootCmd, &migratecmd.Options{
-        // enable auto creation of migration files when making collection changes
-        // (the isGoRun check is to enable it only during development)
-        Automigrate: isGoRun,
-    })
+	migratecmd.MustRegister(app, app.RootCmd, migratecmd.Config{
+		// enable auto creation of migration files when making collection changes
+		// (the isGoRun check is to enable it only during development)
+		Automigrate: isGoRun,
+	})
 
-    dateFormatString := "2006-01-02 15:04:05.000Z"
+	dateFormatString := "2006-01-02 15:04:05.000Z"
 
-    app.OnRecordBeforeCreateRequest("sessions").Add(func(e *core.RecordCreateEvent) error {
-        defaultSessionDuration := 30; // in minutes
-        expiredTime := time.Now().Add(time.Minute * time.Duration(defaultSessionDuration))
-        e.Record.Set("expired", expiredTime.Format(dateFormatString))
+	app.OnRecordBeforeCreateRequest("sessions").Add(func(e *core.RecordCreateEvent) error {
+		defaultSessionDuration := 30 // in minutes
+		expiredTime := time.Now().Add(time.Minute * time.Duration(defaultSessionDuration))
+		e.Record.Set("expired", expiredTime.Format(dateFormatString))
 
-        return nil
-    })
+		return nil
+	})
 
-    app.OnRecordBeforeCreateRequest("files").Add(func(e *core.RecordCreateEvent) error {
-        defaultSessionDuration := 30; // in minutes
-        expiredTime := time.Now().Add(time.Minute * time.Duration(defaultSessionDuration))
-        e.Record.Set("expired", expiredTime.Format(dateFormatString))
+	app.OnRecordAfterCreateRequest("files").Add(func(e *core.RecordCreateEvent) error {
+		defaultSessionDuration := 30 // in minutes
+		expiredTime := time.Now().Add(time.Minute * time.Duration(defaultSessionDuration))
+		e.Record.Set("expired", expiredTime.Format(dateFormatString))
 
-        sessionId := e.Record.GetString("session");
+		filePath := e.Record.BaseFilesPath() + "/" + e.Record.GetString("file")
 
-        session, err := app.Dao().FindRecordById("sessions", sessionId)
-        if err != nil {
-            return err
-        }
+		fsys, err := app.NewFilesystem()
+		if err != nil {
+			return err
+		}
+		defer fsys.Close()
 
-        session.Set("lastFileChanged", time.Now().Format(dateFormatString))
-        session.Set("expired", expiredTime.Format(dateFormatString))
+		file, err := fsys.GetFile(filePath)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
 
-        if err := app.Dao().SaveRecord(session); err != nil {
-            return err
-        }
+		e.Record.Set("size", file.Size())
 
-        return nil
-    })
+		if err := app.Dao().SaveRecord(e.Record); err != nil {
+			return err
+		}
 
-    app.OnRecordBeforeDeleteRequest("files").Add(func(e *core.RecordDeleteEvent) error {
-        sessionId := e.Record.GetString("session");
+		sessionId := e.Record.GetString("session")
 
-        session, err := app.Dao().FindRecordById("sessions", sessionId)
-        if err != nil {
-            return err
-        }
+		session, err := app.Dao().FindRecordById("sessions", sessionId)
+		if err != nil {
+			return err
+		}
 
-        session.Set("lastFileChanged", time.Now().Format(dateFormatString))
+		session.Set("lastFileChanged", time.Now().Format(dateFormatString))
+		session.Set("expired", expiredTime.Format(dateFormatString))
 
-        if err := app.Dao().SaveRecord(session); err != nil {
-            return err
-        }
+		if err := app.Dao().SaveRecord(session); err != nil {
+			return err
+		}
 
-        return nil
-    })
+		return nil
+	})
 
-    if err := app.Start(); err != nil {
-        log.Fatal(err)
-    }
+	app.OnRecordBeforeDeleteRequest("files").Add(func(e *core.RecordDeleteEvent) error {
+		sessionId := e.Record.GetString("session")
+
+		session, err := app.Dao().FindRecordById("sessions", sessionId)
+		if err != nil {
+			return err
+		}
+
+		session.Set("lastFileChanged", time.Now().Format(dateFormatString))
+
+		if err := app.Dao().SaveRecord(session); err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	if err := app.Start(); err != nil {
+		log.Fatal(err)
+	}
 }
