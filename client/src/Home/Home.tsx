@@ -150,7 +150,7 @@ export function Home() {
                 className={classes.control}
                 onClick={() => window.open(githubLink, '_blank')}
               >
-                Github
+                GitHub
               </Button>
             </Group>
           </div>
