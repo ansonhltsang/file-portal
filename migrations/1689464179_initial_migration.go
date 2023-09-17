@@ -79,8 +79,9 @@ func init() {
 					Type:     schema.FieldTypeRelation,
 					Required: true,
 					Options: &schema.RelationOptions{
-						MaxSelect:    types.Pointer(1),
-						CollectionId: sessionsCollection.Id,
+						MaxSelect:     types.Pointer(1),
+						CollectionId:  sessionsCollection.Id,
+						CascadeDelete: true,
 					},
 				},
 				&schema.SchemaField{

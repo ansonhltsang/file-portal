@@ -4,6 +4,7 @@ import { Notifications } from '@mantine/notifications';
 export const theme: MantineThemeOverride = {
   colorScheme: 'light',
   fontFamily: 'sans-serif',
+  primaryColor: 'green',
   headings: {
     fontWeight: 400,
     fontFamily: 'sans-serif',

@@ -1,14 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { Flex } from '@mantine/core';
+import Countdown from 'react-countdown';
 import { FileContainer } from './FileContainer';
 import { DropzoneContainer } from './DropzoneContainer';
 import decodeClientKey from './utils/decodeClientKey';
 import { LinkContainer } from './LinkContainer';
 import showErrorNotification from '../Home/utils/showErrorNotification';
+import { ExpiryTimer } from './ExpiryTimer';
 
 type SessionParams = {
   id: string;
+};
+
+type SessionValidationResponse = {
+  expired: string;
 };
 
 export const Session = () => {
@@ -18,6 +24,7 @@ export const Session = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSessionValid, setIsSessionValid] = useState(true);
   const [clientKey, setClientKey] = useState<CryptoKey | null>(null);
+  const [sessionExpireTime, setSessionExpireTime] = useState<number | null>(null);
 
   useEffect(() => {
     const validateSessionId = async () => {
@@ -25,6 +32,11 @@ export const Session = () => {
       const response = await fetch(url);
       if (!response.ok) {
         setIsSessionValid(false);
+      } else {
+        const { expired } = (await response.json()) as SessionValidationResponse;
+        const expiryTime = new Date();
+        expiryTime.setTime(Date.parse(expired));
+        setSessionExpireTime(Date.parse(expired));
       }
       setIsLoading(false);
     };
@@ -58,6 +70,9 @@ export const Session = () => {
       ) : isSessionValid ? (
         <>
           <LinkContainer />
+          {sessionExpireTime !== null && (
+            <Countdown date={sessionExpireTime} renderer={ExpiryTimer} />
+          )}
           <DropzoneContainer sessionId={id} clientKey={clientKey} />
           <FileContainer sessionId={id} clientKey={clientKey} />
         </>

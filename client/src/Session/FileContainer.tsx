@@ -24,7 +24,7 @@ const useStyles = createStyles((theme) => ({
     position: 'sticky',
     zIndex: 2,
     top: 0,
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+    backgroundColor: theme.white,
     transition: 'box-shadow 150ms ease',
 
     '&::after': {
@@ -33,9 +33,7 @@ const useStyles = createStyles((theme) => ({
       left: 0,
       right: 0,
       bottom: 0,
-      borderBottom: `${rem(1)} solid ${
-        theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[2]
-      }`,
+      borderBottom: `${rem(1)} solid ${theme.colors.gray[2]}`,
     },
   },
 

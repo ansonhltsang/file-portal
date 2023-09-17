@@ -1,41 +1,87 @@
+import {
+  createStyles,
+  Image,
+  Container,
+  Title,
+  Button,
+  Group,
+  Text,
+  List,
+  ThemeIcon,
+  rem,
+} from '@mantine/core';
+import { IconCheck } from '@tabler/icons-react';
 import { useState } from 'react';
-import { Flex } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import PocketBase from 'pocketbase';
+import image from '../favicon.svg';
 import generateClientKey from './utils/generateClientKey';
 
-// const useStyles = createStyles((theme) => ({
+const githubLink = 'https://github.com/ansonhltsang/file-portal';
 
-//   HalfContainer: {
-//     margin: 0,
-//     }
-//   }
+const useStyles = createStyles((theme) => ({
+  inner: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    paddingTop: `calc(${theme.spacing.xl} * 4)`,
+    paddingBottom: `calc(${theme.spacing.xl} * 4)`,
+  },
 
-// inner: {
-//   display: 'flex',
-//   justifyContent: 'space-between',
-//   alignItems: 'center',
-//   paddingTop: theme.spacing.xl,
-//   paddingBottom: theme.spacing.xl,
+  content: {
+    maxWidth: rem(480),
+    marginRight: `calc(${theme.spacing.xl} * 3)`,
+    marginLeft: `calc(${theme.spacing.xl} * 3)`,
+    [theme.fn.smallerThan('md')]: {
+      maxWidth: '100%',
+    },
+    [theme.fn.smallerThan('xs')]: {
+      marginRight: 0,
+      marginLeft: 0,
+    },
+  },
 
-//   [theme.fn.smallerThan('xs')]: {
-//     flexDirection: 'column',
-//   },
-// },
+  title: {
+    color: theme.black,
+    fontFamily: theme.fontFamily,
+    fontSize: rem(44),
+    lineHeight: 1.2,
+    fontWeight: 700,
 
-// links: {
-//   [theme.fn.smallerThan('xs')]: {
-//     marginTop: theme.spacing.md,
-//   },
-// },
-// }));
+    [theme.fn.smallerThan('xs')]: {
+      fontSize: rem(28),
+    },
+  },
 
-export const Home = () => {
+  control: {
+    [theme.fn.smallerThan('xs')]: {
+      flex: 1,
+    },
+  },
+
+  image: {
+    flex: 1,
+
+    [theme.fn.smallerThan('md')]: {
+      display: 'none',
+    },
+  },
+
+  highlight: {
+    position: 'relative',
+    backgroundColor: theme.fn.variant({ variant: 'light', color: theme.primaryColor }).background,
+    borderRadius: theme.radius.sm,
+    padding: `${rem(4)} ${rem(12)}`,
+  },
+}));
+
+export function Home() {
   const [isSessionLoading, setIsSessionLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const pb = new PocketBase(import.meta.env.VITE_PB_URL as string);
+
+  const { classes } = useStyles();
 
   const createSessionAndRedirect = async () => {
     setIsSessionLoading(true);
@@ -49,25 +95,68 @@ export const Home = () => {
   };
 
   return (
-    <Flex direction={{ base: 'column', xs: 'row' }} justify={{ base: 'center' }} className="flex-1">
-      <div className="flex-1 bg-red-200 p-5 flex justify-center items-center">
-        <button
-          type="button"
-          onClick={() => {
-            createSessionAndRedirect().catch(() => setIsSessionLoading(false));
-          }}
-          className="h-1/4"
-        >
-          {isSessionLoading ? <h1>Loading...</h1> : <h1>Create Session</h1>}
-        </button>
-      </div>
-      <div className="flex-1 bg-blue-200 p-5 align-">
-        <h1>Share files seamlessly across devices</h1>
-        <h2>Create a session to get started</h2>
-        <hr className="border-solid border border-slate-400" />
-        <h2>Alternatively</h2>
-        <h2>Scan QR code of an existing session</h2>
-      </div>
-    </Flex>
+    <div>
+      <Container>
+        <div className={classes.inner}>
+          <div className={classes.content}>
+            <Title className={classes.title}>
+              An <span className={classes.highlight}>E2E encrypted</span> file transfer service
+            </Title>
+            <Text color="dimmed" mt="md">
+              Transfer files between devices seamlessly with no compromise on privacy - create a
+              session to get started!
+            </Text>
+
+            <List
+              mt={30}
+              spacing="sm"
+              size="sm"
+              icon={
+                <ThemeIcon size={20} radius="xl">
+                  <IconCheck size={rem(12)} stroke={5} />
+                </ThemeIcon>
+              }
+            >
+              <List.Item>
+                <b>End-to-end encryption</b> – all uploaded files are AES encrypted, the server can
+                never read the original content
+              </List.Item>
+              <List.Item>
+                <b>Live updates</b> – files uploaded from another device automatically shows up
+                here, no need to manually refresh
+              </List.Item>
+              <List.Item>
+                <b>Auto-wipe</b> – each session expires in 30 minutes and all files are permanently
+                removed from the server
+              </List.Item>
+            </List>
+
+            <Group mt={30}>
+              <Button
+                radius="xl"
+                size="md"
+                className={classes.control}
+                onClick={() => {
+                  createSessionAndRedirect().catch(() => setIsSessionLoading(false));
+                }}
+                disabled={isSessionLoading}
+              >
+                Create Session
+              </Button>
+              <Button
+                variant="default"
+                radius="xl"
+                size="md"
+                className={classes.control}
+                onClick={() => window.open(githubLink, '_blank')}
+              >
+                Github
+              </Button>
+            </Group>
+          </div>
+          <Image src={image} className={classes.image} />
+        </div>
+      </Container>
+    </div>
   );
-};
+}

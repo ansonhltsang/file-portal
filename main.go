@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/pocketbase/dbx"
+	"github.com/pocketbase/pocketbase/tools/cron"
 	"log"
 	"os"
 	"strings"
@@ -25,9 +27,43 @@ func main() {
 
 	dateFormatString := "2006-01-02 15:04:05.000Z"
 
+	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
+		scheduler := cron.New()
+
+		records, _ := app.Dao().FindRecordsByExpr("sessions",
+			dbx.NewExp("expired < {:dateTimeNow}", dbx.Params{"dateTimeNow": time.Now().UTC().Format(dateFormatString)}),
+		)
+
+		for _, record := range records {
+			err := app.Dao().DeleteRecord(record)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
+		}
+
+		scheduler.MustAdd("remove-expired-sessions", "*/1 * * * *", func() {
+			expiredSessionRecords, _ := app.Dao().FindRecordsByExpr("sessions",
+				dbx.NewExp("expired < {:dateTimeNow}", dbx.Params{"dateTimeNow": time.Now().UTC().Format(dateFormatString)}),
+			)
+
+			for _, expiredSession := range expiredSessionRecords {
+				err := app.Dao().DeleteRecord(expiredSession)
+				if err != nil {
+					log.Println(err)
+					continue
+				}
+			}
+		})
+
+		scheduler.Start()
+
+		return nil
+	})
+
 	app.OnRecordBeforeCreateRequest("sessions").Add(func(e *core.RecordCreateEvent) error {
 		defaultSessionDuration := 30 // in minutes
-		expiredTime := time.Now().Add(time.Minute * time.Duration(defaultSessionDuration))
+		expiredTime := time.Now().UTC().Add(time.Minute * time.Duration(defaultSessionDuration))
 		e.Record.Set("expired", expiredTime.Format(dateFormatString))
 
 		return nil
@@ -35,7 +71,7 @@ func main() {
 
 	app.OnRecordAfterCreateRequest("files").Add(func(e *core.RecordCreateEvent) error {
 		defaultSessionDuration := 30 // in minutes
-		expiredTime := time.Now().Add(time.Minute * time.Duration(defaultSessionDuration))
+		expiredTime := time.Now().UTC().Add(time.Minute * time.Duration(defaultSessionDuration))
 		e.Record.Set("expired", expiredTime.Format(dateFormatString))
 
 		filePath := e.Record.BaseFilesPath() + "/" + e.Record.GetString("file")
@@ -65,7 +101,7 @@ func main() {
 			return err
 		}
 
-		session.Set("lastFileChanged", time.Now().Format(dateFormatString))
+		session.Set("lastFileChanged", time.Now().UTC().Format(dateFormatString))
 		session.Set("expired", expiredTime.Format(dateFormatString))
 
 		if err := app.Dao().SaveRecord(session); err != nil {
@@ -83,7 +119,7 @@ func main() {
 			return err
 		}
 
-		session.Set("lastFileChanged", time.Now().Format(dateFormatString))
+		session.Set("lastFileChanged", time.Now().UTC().Format(dateFormatString))
 
 		if err := app.Dao().SaveRecord(session); err != nil {
 			return err

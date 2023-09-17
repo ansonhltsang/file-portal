@@ -9,7 +9,6 @@ type componentClassName = {
 
 const useStyles = createStyles((theme) => ({
   outerFlexContainer: {
-    marginBottom: rem(30),
     flexDirection: 'row',
     [theme.fn.smallerThan('md')]: {
       marginTop: rem(30),
@@ -58,7 +57,7 @@ const CopyLinkButton = ({ className }: componentClassName) => {
           rightIcon: { marginLeft: rem(22) },
         }}
         onClick={() => clipboard.copy(window.location.href)}
-        fw="200"
+        fw="300"
         mr={rem(20)}
         ml={rem(30)}
       >
@@ -71,7 +70,7 @@ const CopyLinkButton = ({ className }: componentClassName) => {
 const SmallCopyLinkButton = ({ className }: componentClassName) => (
   <CopyButton value={window.location.href}>
     {({ copied, copy }) => (
-      <Button color={copied ? 'teal' : 'blue'} onClick={copy} mr={rem(20)} className={className}>
+      <Button color={copied ? 'teal' : 'green'} onClick={copy} mr={rem(20)} className={className}>
         {copied ? 'Copied Link' : 'Copy Link'}
       </Button>
     )}

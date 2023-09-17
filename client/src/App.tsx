@@ -4,7 +4,6 @@ import { Home } from './Home';
 import { Session } from './Session';
 import ErrorPage from './ErrorPage';
 import Header from './Components/Header';
-import Footer from './Components/Footer';
 
 const router = createBrowserRouter([
   {
@@ -25,7 +24,6 @@ export default function App() {
       <div className="min-h-screen flex flex-col">
         <Header />
         <RouterProvider router={router} />
-        <Footer />
       </div>
     </ThemeProvider>
   );

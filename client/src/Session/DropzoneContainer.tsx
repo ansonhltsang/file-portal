@@ -28,7 +28,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   icon: {
-    color: theme.colorScheme === 'dark' ? theme.colors.dark[3] : theme.colors.gray[4],
+    color: theme.colors.gray[4],
   },
 
   control: {
@@ -113,11 +113,7 @@ export const DropzoneContainer = ({ sessionId, clientKey }: DropzoneContainerPro
               <IconX size={rem(70)} color={theme.colors.red[6]} stroke={1.2} />
             </Dropzone.Reject>
             <Dropzone.Idle>
-              <IconCloudUpload
-                size={rem(70)}
-                color={theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black}
-                stroke={1.2}
-              />
+              <IconCloudUpload size={rem(70)} color={theme.black} stroke={1.2} />
             </Dropzone.Idle>
           </Group>
           <div className="flex-1">
@@ -127,7 +123,7 @@ export const DropzoneContainer = ({ sessionId, clientKey }: DropzoneContainerPro
               <Dropzone.Idle>Upload files here</Dropzone.Idle>
             </Text>
             <Text ta="center" fz="sm" mt="xs" c="dimmed">
-              Click here or drag&apos;n&apos;drop files to upload. Up to 10 MB.
+              Click here or drag and drop files to upload. Up to 10 MB.
             </Text>
           </div>
         </div>
