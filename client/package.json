@@ -5,15 +5,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build:prod": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src",
     "prettier": "prettier --check \"**/*.{ts,tsx}\"",
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
-    "jest": "jest",
-    "jest:watch": "jest --watch",
-    "test": "npm run typecheck && npm run prettier && npm run lint && npm run jest && npm run build"
+    "test": "yarn run typecheck && yarn run prettier && yarn run lint && yarn run build"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -64,5 +61,6 @@
     "ts-jest": "^29.0.5",
     "typescript": "^4.9.5",
     "vite": "^4.4.9"
-  }
+  },
+  "packageManager": "yarn@3.6.3"
 }

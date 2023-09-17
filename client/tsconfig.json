@@ -18,9 +18,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "paths": {
-      "@test-utils": ["./test-utils"]
-    }
   },
   "include": ["src", "test-utils"],
   "references": [{ "path": "./tsconfig.node.json" }]
