@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { Flex } from '@mantine/core';
+import { Button, Flex } from '@mantine/core';
 import Countdown from 'react-countdown';
 import { FileContainer } from './FileContainer';
 import { DropzoneContainer } from './DropzoneContainer';
@@ -77,7 +77,12 @@ export const Session = () => {
           <FileContainer sessionId={id} clientKey={clientKey} />
         </>
       ) : (
-        <h1>Session not found</h1>
+        <>
+          <h1>Session not found</h1>
+          <Button component="a" href="/" radius="xl" size="md">
+            Back to Home
+          </Button>
+        </>
       )}
     </Flex>
   );
