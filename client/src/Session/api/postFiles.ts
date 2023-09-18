@@ -31,7 +31,7 @@ const postFile = (sessionId: string, { data, fileName, iv }: FileWithProperties)
 
   xhr.upload.onprogress = (e) => {
     if (e.lengthComputable) {
-      const percentComplete = (e.loaded / e.total) * 100;
+      const percentComplete = Math.round((e.loaded / e.total) * 100);
       notifications.update({
         id: notificationId,
         loading: true,
