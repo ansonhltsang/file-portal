@@ -6,9 +6,9 @@
   </a>
   <h3 align="center">File Portal</h3>
   <p align="center">
-    An end-to-end encrypted file transfer service with a responsive front-end.
+    An end-to-end encrypted file transfer service with a responsive frontend.
         <br />
-    <a href="https://file-portal.pages.dev/"><strong>Live Demo »</strong></a>
+    <strong>Live Demo</strong> » <a href="https://file-portal.pages.dev/">file-portal.pages.dev</a>
     <br />
   </p>
 </div>
@@ -29,6 +29,9 @@
         <li><a href="#backend">Backend</a></li>
       </ul>
     </li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
 
@@ -46,7 +49,7 @@
 ## Installation
 To get a local copy running, follow these simple steps.
 
-First, clone the repository.
+First, clone the repository
 ```sh
 git clone https://github.com/ansonhltsang/file-portal.git
 ```
@@ -68,14 +71,14 @@ yarn install
 ```
 VITE_PB_URL="http://localhost:8090"
 ```
-6. Run the following to start up the frontend locally
+6. Run the following to start up the frontend locally. The default port used is 5173, follow the link in the terminal to access the frontend.
 ```sh
 yarn dev
 ```
 7. Other commands such as linting `yarn test` and building for production `yarn build`  can be found in `package.json`
 
 #### Backend
-There are two ways to run the backend, either through a Docker container or by installing Go and building the application
+There are two ways to run the backend, either through a Docker container or by installing Go and building the application.
 
 ##### *Docker*
 1. Install [Docker][docker-url]
@@ -100,16 +103,33 @@ If you followed the above instructions to set up the backend, access the admin d
 
 There will now be a `pb_data` folder in the project directory, this will be the directory where data and user uploaded files are stored. To reset the database, simply end the application and delete this folder.
 
-As an option, the backend can be built into a portable standalone binary executable
+As an option, the backend can be built into a portable standalone binary executable.
 ```sh 
 CGO_ENABLED=0 go build
 ```
-Run the following command to serve the binary executable
+Run the following command to serve the binary executable.
 ```sh
 ./file-portal serve --dir="./pb_data" --http=127.0.0.1:8090
 ```
 
+## Roadmap
+- [ ] Set file transfer size limit as an environmental variable
+- [ ] Add rate limiting to backend
+- [ ] Add peer-to-peer transfer for large files
+- [ ] Add ability to set session expiration time
+- [ ] Add ability to set individual file expiration time
 
+## Acknowledgments
+
+Listed below are projects/packages used in this project.
+
+- [Tabler Icons For React](https://tabler-icons.io/)
+- [base58check](https://www.npmjs.com/package/base58check)
+- [qrcode.react](https://www.npmjs.com/package/qrcode.react)
+- [react-countdown](https://www.npmjs.com/package/react-countdown)
+
+## Contact
+Anson Tsang - ansonhltsang@gmail.com - [LinkedIn](https://www.linkedin.com/in/hlansontsang)
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [demo-gif]: https://github.com/ansonhltsang/file-portal/assets/111023420/f8deb5cc-3534-4631-85c8-2c97892512d3
