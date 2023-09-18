@@ -33,6 +33,7 @@
 </details>
 
 ## About The Project
+![file-portal-demo-gif][demo-gif]
 
 !! Stuff goes here to talk about this project. !!
 
@@ -50,7 +51,7 @@ First, clone the repository.
 git clone https://github.com/ansonhltsang/file-portal.git
 ```
 #### Frontend
-1. Install [Node 18+](https://nodejs.org/en)
+1. Install [Node 18+][node-url]
 2. Enable Corepack
 ```sh
 corepack enable
@@ -77,10 +78,10 @@ yarn dev
 There are two ways to run the backend, either through a Docker container or by installing Go and building the application
 
 ##### *Docker*
-1. Install [Docker](https://docs.docker.com/get-docker/)
+1. Install [Docker][docker-url]
 2. Go into the `file-portal` directory
 3. Build the docker image
-```sh 
+```sh
 docker build --tag file-portal-pb .
 ```
 4. Create and run a new container from the image
@@ -89,13 +90,13 @@ docker run -d -p 8090:8090 file-portal-pb
 ```
 
 ##### *Go*
-1. Install [Go 1.18+](https://go.dev/doc/install)
+1. Install [Go 1.18+][go-url]
 2. Go into the `file-portal` directory
 3. Run and serve the backend
 ```sh 
 go run main.go serve --dir="./pb_data" --http=127.0.0.1:8090
 ```
-If you followed the above instructions to setup the backend, access the admin dashboard by visiting [http://localhost:8090/_](http://localhost:8090/_)and setup an account.
+If you followed the above instructions to set up the backend, access the admin dashboard by visiting [http://localhost:8090/_](http://localhost:8090/_)and set up an account.
 
 There will now be a `pb_data` folder in the project directory, this will be the directory where data and user uploaded files are stored. To reset the database, simply end the application and delete this folder.
 
@@ -111,6 +112,7 @@ Run the following command to serve the binary executable
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
+[demo-gif]: https://github.com/ansonhltsang/file-portal/assets/111023420/f8deb5cc-3534-4631-85c8-2c97892512d3
 [react.dev]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [react-url]: https://react.dev/
 [mantine.dev]:https://img.shields.io/badge/Mantine-5B5B5B?style=for-the-badge&logo=mantine
@@ -119,3 +121,6 @@ Run the following command to serve the binary executable
 [pocketbase-url]: https://pocketbase.io/
 [reactrouter.com]: https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white
 [reactrouter-url]: https://reactrouter.com/
+[node-url]: https://nodejs.org/en
+[docker-url]: https://docs.docker.com/get-docker/
+[go-url]: https://go.dev/doc/install
