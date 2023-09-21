@@ -1,10 +1,13 @@
 package main
 
 import (
+	"github.com/joho/godotenv"
+	_ "github.com/joho/godotenv"
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/tools/cron"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -16,6 +19,16 @@ import (
 
 func main() {
 	app := pocketbase.New()
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defaultSessionDuration, err := strconv.Atoi(os.Getenv("VITE_DEFAULT_SESSION_DURATION_IN_MINUTES"))
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	isGoRun := strings.HasPrefix(os.Args[0], os.TempDir())
 
@@ -62,7 +75,6 @@ func main() {
 	})
 
 	app.OnRecordBeforeCreateRequest("sessions").Add(func(e *core.RecordCreateEvent) error {
-		defaultSessionDuration := 30 // in minutes
 		expiredTime := time.Now().UTC().Add(time.Minute * time.Duration(defaultSessionDuration))
 		e.Record.Set("expired", expiredTime.Format(dateFormatString))
 
@@ -70,7 +82,6 @@ func main() {
 	})
 
 	app.OnRecordAfterCreateRequest("files").Add(func(e *core.RecordCreateEvent) error {
-		defaultSessionDuration := 30 // in minutes
 		expiredTime := time.Now().UTC().Add(time.Minute * time.Duration(defaultSessionDuration))
 		e.Record.Set("expired", expiredTime.Format(dateFormatString))
 

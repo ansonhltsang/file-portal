@@ -1,15 +1,30 @@
 package migrations
 
 import (
+	"github.com/joho/godotenv"
+	_ "github.com/joho/godotenv"
 	"github.com/pocketbase/dbx"
 	"github.com/pocketbase/pocketbase/daos"
 	m "github.com/pocketbase/pocketbase/migrations"
 	"github.com/pocketbase/pocketbase/models"
 	"github.com/pocketbase/pocketbase/models/schema"
 	"github.com/pocketbase/pocketbase/tools/types"
+	"log"
+	"os"
+	"strconv"
 )
 
 func init() {
+	err := godotenv.Load("../.env")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fileSizeLimit, err := strconv.Atoi(os.Getenv("VITE_UPLOAD_BYTE_SIZE_LIMIT")) // In bytes
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	m.Register(func(db dbx.Builder) error {
 		dao := daos.New(db)
 
@@ -93,7 +108,7 @@ func init() {
 					Type:     schema.FieldTypeFile,
 					Required: true,
 					Options: &schema.FileOptions{
-						MaxSize:   10485760, // 10 MB file size limit
+						MaxSize:   fileSizeLimit,
 						MaxSelect: 1,
 					},
 				},

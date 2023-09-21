@@ -7,6 +7,7 @@ import downloadFiles from './api/downloadFiles';
 import deleteFile from './api/deleteFile';
 import showErrorNotification from '../Home/utils/showErrorNotification';
 import FileItem from './types/FileItem';
+import fileSizeToReadableString from './utils/fileSizeToReadableString';
 
 export type FileContainerProps = {
   sessionId: string;
@@ -51,16 +52,6 @@ const useStyles = createStyles((theme) => ({
     height: rem('40vh'),
   },
 }));
-
-const fileSizeToReadableString = (fileSize: number) => {
-  const sizes = [' Bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'];
-
-  for (let i = 1; i < sizes.length; i += 1) {
-    if (fileSize < 1024 ** i)
-      return `${Math.round((fileSize / 1024 ** (i - 1)) * 100) / 100} ${sizes[i - 1]}`;
-  }
-  return fileSize.toString();
-};
 
 export const FileContainer = ({ sessionId, clientKey }: FileContainerProps) => {
   const pbUrl = import.meta.env.VITE_PB_URL as string;

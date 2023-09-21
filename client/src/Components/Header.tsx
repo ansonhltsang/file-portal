@@ -3,7 +3,7 @@ import { BrandGithub } from 'tabler-icons-react';
 
 const HEADER_HEIGHT = rem(90);
 
-const githubLink = 'https://github.com/ansonhltsang/file-portal';
+const GITHUB_LINK = 'https://github.com/ansonhltsang/file-portal';
 
 const useStyles = createStyles(() => ({
   root: {
@@ -41,7 +41,7 @@ export default function HeaderContainer() {
           color="gray"
           w="fit-content"
           p={rem(3)}
-          onClick={() => window.open(githubLink, '_blank')}
+          onClick={() => window.open(GITHUB_LINK, '_blank')}
         >
           <BrandGithub size={rem(30)} strokeWidth={1.5} color="grey" />
         </Button>

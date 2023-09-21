@@ -43,16 +43,6 @@ const postFile = (sessionId: string, { data, fileName, iv }: FileWithProperties)
     }
   };
 
-  xhr.upload.onload = () => {
-    notifications.update({
-      id: notificationId,
-      color: 'teal',
-      title: `Uploaded ${notificationFileName}`,
-      message: `${fileName} uploaded successfully`,
-      autoClose: 5000,
-    });
-  };
-
   xhr.upload.onerror = () => {
     notifications.update({
       id: notificationId,
@@ -61,6 +51,26 @@ const postFile = (sessionId: string, { data, fileName, iv }: FileWithProperties)
       message: `Upload failed`,
       autoClose: 5000,
     });
+  };
+
+  xhr.onload = () => {
+    if (xhr.status == 200) {
+      notifications.update({
+        id: notificationId,
+        color: 'teal',
+        title: `Uploaded ${notificationFileName}`,
+        message: `${fileName} uploaded successfully`,
+        autoClose: 5000,
+      });
+    } else {
+      notifications.update({
+        id: notificationId,
+        color: 'red',
+        title: `Failed to upload ${fileName}`,
+        message: `Upload failed`,
+        autoClose: 5000,
+      });
+    }
   };
 
   xhr.send(formData);

@@ -17,7 +17,9 @@ import PocketBase from 'pocketbase';
 import image from '../favicon.svg';
 import generateClientKey from './utils/generateClientKey';
 
-const githubLink = 'https://github.com/ansonhltsang/file-portal';
+const GITHUB_LINK = 'https://github.com/ansonhltsang/file-portal';
+const DEFAULT_SESSION_DURATION_IN_MINUTES = import.meta.env
+  .VITE_DEFAULT_SESSION_DURATION_IN_MINUTES;
 
 const useStyles = createStyles((theme) => ({
   inner: {
@@ -126,8 +128,8 @@ export function Home() {
                 here, no need to manually refresh
               </List.Item>
               <List.Item>
-                <b>Auto-wipe</b> – each session expires in 30 minutes and all files are permanently
-                removed from the server
+                <b>Auto-wipe</b> – each session expires in {DEFAULT_SESSION_DURATION_IN_MINUTES}{' '}
+                minutes and all files are permanently removed from the server
               </List.Item>
             </List>
 
@@ -148,7 +150,7 @@ export function Home() {
                 radius="xl"
                 size="md"
                 className={classes.control}
-                onClick={() => window.open(githubLink, '_blank')}
+                onClick={() => window.open(GITHUB_LINK, '_blank')}
               >
                 GitHub
               </Button>

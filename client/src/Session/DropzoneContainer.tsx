@@ -4,6 +4,10 @@ import { Dropzone, FileWithPath } from '@mantine/dropzone';
 import { IconCloudUpload, IconX, IconDownload } from '@tabler/icons-react';
 import postFile from './api/postFiles';
 import FileWithProperties from './types/FileWithProperties';
+import fileSizeToReadableString from './utils/fileSizeToReadableString';
+
+const UPLOAD_BYTE_SIZE_LIMIT = import.meta.env.VITE_UPLOAD_BYTE_SIZE_LIMIT as number;
+const FILE_SIZE_LIMIT_STRING = fileSizeToReadableString(UPLOAD_BYTE_SIZE_LIMIT);
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -98,7 +102,7 @@ export const DropzoneContainer = ({ sessionId, clientKey }: DropzoneContainerPro
         onDrop={(files) => files.map((file) => processFile(sessionId, file, clientKey))}
         className={classes.dropzone}
         radius="md"
-        maxSize={10 * 1024 ** 2}
+        maxSize={UPLOAD_BYTE_SIZE_LIMIT}
       >
         <div className={classes.dropzoneContent} style={{ pointerEvents: 'none' }}>
           <Group position="center" className="h-fit mx-3">
@@ -119,11 +123,11 @@ export const DropzoneContainer = ({ sessionId, clientKey }: DropzoneContainerPro
           <div className="flex-1">
             <Text ta="center" fw={700} fz="xl" mt="xl" my={0}>
               <Dropzone.Accept>Drop files here</Dropzone.Accept>
-              <Dropzone.Reject>Files less than 10mb</Dropzone.Reject>
+              <Dropzone.Reject>Files must be less than {FILE_SIZE_LIMIT_STRING}</Dropzone.Reject>
               <Dropzone.Idle>Upload files here</Dropzone.Idle>
             </Text>
             <Text ta="center" fz="sm" mt="xs" c="dimmed">
-              Click here or drag and drop files to upload. Up to 10 MB.
+              Click here or drag and drop files to upload. Up to {FILE_SIZE_LIMIT_STRING}.
             </Text>
           </div>
         </div>
