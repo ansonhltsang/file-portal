@@ -38,7 +38,13 @@
 ## About The Project
 ![file-portal-demo-gif][demo-gif]
 
-!! Stuff goes here to talk about this project. !!
+The goal of this project is to create a file transfer service which prioritises security and privacy. In comparison to 
+popular cloud storage services such as Google Drive and Dropbox, this project aims to achieve this by providing 
+end-to-end encryption. 
+
+Files are encrypted on the users device before it leaves their control and remain encrypted throughout the entire 
+transfer and storage process. This means that even the server will not be able to read the original contents of the 
+file, ensuring only the intended recipients can decrypt and access it.
 
 ### Built With
 - [![PocketBase][pocketbase.io]][pocketbase-url]
@@ -49,10 +55,18 @@
 ## Installation
 To get a local copy running, follow these simple steps.
 
-First, clone the repository
+1. Clone the repository
 ```sh
 git clone https://github.com/ansonhltsang/file-portal.git
 ```
+2. Create a `.env` file following `.env.example`, use the following if the backend is hosted on port 8090, with a file 
+upload size limit of 25 MB and a session duration of 30 minutes.
+```
+VITE_PB_URL=http://localhost:8090
+VITE_UPLOAD_BYTE_SIZE_LIMIT=26214400
+VITE_DEFAULT_SESSION_DURATION_IN_MINUTES=30
+```
+
 #### Frontend
 1. Install [Node 18+][node-url]
 2. Enable Corepack
@@ -63,22 +77,18 @@ corepack enable
 ```sh
 cd client
 ```
-4. Install npm packages
+4. Install dependencies
 ```sh
 yarn install
 ```
-5. Create a `.env` file following `.env.example`, use the following if the backend is hosted on port 8090
-```
-VITE_PB_URL="http://localhost:8090"
-```
-6. Run the following to start up the frontend locally. The default port used is 5173, follow the link in the terminal to access the frontend.
+5. Run the following to start up the frontend locally. The default port used is 5173, follow the link in the terminal to access the frontend.
 ```sh
 yarn dev
 ```
-7. Other commands such as linting `yarn test` and building for production `yarn build`  can be found in `package.json`
+6. Other commands such as linting `yarn test` and building for production `yarn build`  can be found in `package.json`
 
 #### Backend
-There are two ways to run the backend, either through a Docker container or by installing Go and building the application.
+There are two ways to run the backend, either with Docker or by installing Go and building the application.
 
 ##### *Docker*
 1. Install [Docker][docker-url]
@@ -99,7 +109,7 @@ docker run -d -p 8090:8090 file-portal-pb
 ```sh 
 go run main.go serve --dir="./pb_data" --http=127.0.0.1:8090
 ```
-If you followed the above instructions to set up the backend, access the admin dashboard by visiting [http://localhost:8090/_](http://localhost:8090/_)and set up an account.
+If you followed the above instructions to set up the backend, access the admin dashboard by visiting [http://localhost:8090/_](http://localhost:8090/_) and set up an account.
 
 There will now be a `pb_data` folder in the project directory, this will be the directory where data and user uploaded files are stored. To reset the database, simply end the application and delete this folder.
 
@@ -113,7 +123,7 @@ Run the following command to serve the binary executable.
 ```
 
 ## Roadmap
-- [ ] Set file transfer size limit as an environmental variable
+- [X] Extract application configurations to `.env` file
 - [ ] Add rate limiting to backend
 - [ ] Add peer-to-peer transfer for large files
 - [ ] Add ability to set session expiration time
@@ -127,6 +137,7 @@ Listed below are projects/packages used in this project.
 - [base58check](https://www.npmjs.com/package/base58check)
 - [qrcode.react](https://www.npmjs.com/package/qrcode.react)
 - [react-countdown](https://www.npmjs.com/package/react-countdown)
+- [godotenv](https://github.com/joho/godotenv)
 
 ## Contact
 Anson Tsang - ansonhltsang@gmail.com - [LinkedIn](https://www.linkedin.com/in/hlansontsang)
