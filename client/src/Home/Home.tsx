@@ -124,12 +124,13 @@ export function Home() {
                 never read the original content
               </List.Item>
               <List.Item>
-                <b>Live updates</b> – files uploaded from another device automatically shows up
-                here, no need to manually refresh
+                <b>Live updates</b> – files uploaded from another device automatically shows up here
+                without refreshing the page
               </List.Item>
               <List.Item>
                 <b>Auto-wipe</b> – each session expires in {DEFAULT_SESSION_DURATION_IN_MINUTES}{' '}
-                minutes and all files are permanently removed from the server
+                minutes, and all files uploaded in that session are permanently removed from the
+                server
               </List.Item>
             </List>
 
