@@ -38,13 +38,13 @@
 ## About The Project
 ![file-portal-demo-gif][demo-gif]
 
-The goal of this project is to create a file transfer service which prioritises security and privacy. In comparison to 
-popular cloud storage services such as Google Drive and Dropbox, this project aims to achieve this by providing 
-end-to-end encryption. 
+Unlike popular cloud storage services such as Google Drive and Dropbox, where files are encrypted but the service provider 
+retains the ability to decrypt them, this project aims to create a file transfer service which prioritises security and 
+privacy through the implementation of end-to-end encryption.
 
-Files are encrypted on the users device before it leaves their control and remain encrypted throughout the entire 
-transfer and storage process. This means that even the server will not be able to read the original contents of the 
-file, ensuring only the intended recipients can decrypt and access it.
+End-to-end encryption means files are encrypted on the user's device before it leaves their control and remain encrypted 
+throughout the entire transfer and storage process. This means that even the server will not be able to read the 
+original contents of the file, ensuring only the intended recipients can decrypt and access it.
 
 ### Built With
 - [![PocketBase][pocketbase.io]][pocketbase-url]
@@ -114,8 +114,11 @@ If you followed the above instructions to set up the backend, access the admin d
 There will now be a `pb_data` folder in the project directory, this will be the directory where data and user uploaded files are stored. To reset the database, simply end the application and delete this folder.
 
 As an option, the backend can be built into a portable standalone binary executable.
+
+*If the `CGO_ENABLED` environment variable was changed previously, it should be set to 0. If it is unset, it defaults to 0*
+
 ```sh 
-CGO_ENABLED=0 go build
+go build
 ```
 Run the following command to serve the binary executable.
 ```sh
