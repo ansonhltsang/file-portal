@@ -16,7 +16,7 @@ FROM alpine:latest AS Production
 WORKDIR /
 
 COPY --from=BuildStage /file-portal-pb ./
-COPY ./.env ./
+COPY ./*.env ./
 
 VOLUME /pb_data
 EXPOSE 8090

@@ -17,7 +17,7 @@ import (
 func init() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	fileSizeLimit, err := strconv.Atoi(os.Getenv("VITE_UPLOAD_BYTE_SIZE_LIMIT")) // In bytes

@@ -22,7 +22,7 @@ func main() {
 
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 
 	defaultSessionDuration, err := strconv.Atoi(os.Getenv("VITE_DEFAULT_SESSION_DURATION_IN_MINUTES"))
