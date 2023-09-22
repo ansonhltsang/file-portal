@@ -34,16 +34,19 @@ func init() {
 		settings.Smtp.Enabled = false
 		settings.Logs.MaxDays = 7
 		if err := dao.SaveSettings(settings); err != nil {
+			log.Println(err)
 			return err
 		}
 
 		// Remove default Users collection
 		userCollection, err := dao.FindCollectionByNameOrId("users")
 		if err != nil {
+			log.Println(err)
 			return err
 		}
 
 		if err := dao.DeleteCollection(userCollection); err != nil {
+			log.Println(err)
 			return err
 		}
 
@@ -76,6 +79,7 @@ func init() {
 		}
 
 		if err := dao.SaveCollection(sessionsCollection); err != nil {
+			log.Println(err)
 			return err
 		}
 
@@ -129,6 +133,7 @@ func init() {
 		}
 
 		if err := dao.SaveCollection(filesCollection); err != nil {
+			log.Println(err)
 			return err
 		}
 

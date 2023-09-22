@@ -89,12 +89,14 @@ func main() {
 
 		fsys, err := app.NewFilesystem()
 		if err != nil {
+			log.Println(err)
 			return err
 		}
 		defer fsys.Close()
 
 		file, err := fsys.GetFile(filePath)
 		if err != nil {
+			log.Println(err)
 			return err
 		}
 		defer file.Close()
@@ -102,6 +104,7 @@ func main() {
 		e.Record.Set("size", file.Size())
 
 		if err := app.Dao().SaveRecord(e.Record); err != nil {
+			log.Println(err)
 			return err
 		}
 
@@ -109,6 +112,7 @@ func main() {
 
 		session, err := app.Dao().FindRecordById("sessions", sessionId)
 		if err != nil {
+			log.Println(err)
 			return err
 		}
 
@@ -116,6 +120,7 @@ func main() {
 		session.Set("expired", expiredTime.Format(dateFormatString))
 
 		if err := app.Dao().SaveRecord(session); err != nil {
+			log.Println(err)
 			return err
 		}
 
@@ -127,12 +132,14 @@ func main() {
 
 		session, err := app.Dao().FindRecordById("sessions", sessionId)
 		if err != nil {
+			log.Println(err)
 			return err
 		}
 
 		session.Set("lastFileChanged", time.Now().UTC().Format(dateFormatString))
 
 		if err := app.Dao().SaveRecord(session); err != nil {
+			log.Println(err)
 			return err
 		}
 
