@@ -8,7 +8,8 @@
   <p align="center">
     An end-to-end encrypted file transfer service with a responsive frontend.
         <br />
-    <strong>Live Demo</strong> » <a href="https://file-portal.pages.dev/">file-portal.pages.dev</a>
+    <s><strong>Live Demo</strong> » <a href="https://file-portal.pages.dev/">file-portal.pages.dev</a></s><br/>
+    <i>Currently finding/migrating to new backend host</i>
     <br />
   </p>
 </div>
